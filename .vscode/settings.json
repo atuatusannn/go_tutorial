@@ -1,0 +1,8 @@
+{
+    "editor.fontFamily": "\"Source Han Code JP\"",
+    "editor.fontSize": 15,
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 120,
+    "terminal.integrated.fontSize": 15,
+    "terminal.integrated.fontFamily": "monospace"
+}
