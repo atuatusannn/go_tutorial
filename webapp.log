@@ -3,3 +3,4 @@
 2022/02/26 16:49:46 users.go:56: near "where": syntax error
 2022/02/26 16:56:04 users.go:56: near "where": syntax error
 2022/02/26 16:56:54 users.go:56: near "where": syntax error
+2022/03/05 16:45:18 todos.go:23: no such table: todos
