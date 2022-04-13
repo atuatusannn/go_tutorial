@@ -2,44 +2,21 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"gopkg.in/go-ini/ini.v1/app/models"
 )
 
 func main() {
-	// fmt.Println("Hello World")
-	// fmt.Println(config.Config.Port)
-	// fmt.Println(config.Config.DbName)
-	// fmt.Println(config.Config.SQLDriver)
-	// fmt.Println(config.Config.LogFile)
+	fmt.Println(models.Db)
 
-	// log.Println("test")
+	// controllers.StartMainServer()
+	user, _ := models.GetUserByEmail("test@mail.com")
+	fmt.Println(user)
 
-	// fmt.Println(models.Db)
-
-	// u := &models.User{}
-	// u.Name = "test"
-	// u.Email = "test@example.com"
-	// u.Password = "testtest"
-	// fmt.Println(u)
-	// u.CreateUser()
-
-	// u, _ := models.GetUser(1)
-	// fmt.Println(u)
-
-	// u.Name = "Text2"
-	// u.Email = "test2@example.com"
-	// u.UpdateUser()
-	// u, _ = models.GetUser(1)
-	// fmt.Println(u)
-
-	// u.DeleteUser()
-	// u, _ = models.GetUser(1)
-	// fmt.Println(u)
-
-	// user, _ := models.GetUser(2)
-	// user.CreateTodo("firsttodo")
-
-	t, _ := models.GetTodo(1)
-	fmt.Println(t)
+	session, err := user.CreateSession()
+	if err != nil {
+		log.Println(err)
+	}
+	fmt.Println(session)
 }

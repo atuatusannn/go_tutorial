@@ -6,12 +6,20 @@ import (
 )
 
 type User struct {
-	ID       int
-	UUID     string
-	Name     string
-	Email    string
-	Password string
-	CreatAt  time.Time
+	ID        int
+	UUID      string
+	Name      string
+	Email     string
+	Password  string
+	CreatedAt time.Time
+}
+
+type Session struct {
+	ID         int
+	UUID       string
+	Email      string
+	UserID     int
+	Created_at time.Time
 }
 
 func (u *User) CreateUser() (err error) {
@@ -44,7 +52,7 @@ func GetUser(id int) (user User, err error) {
 		&user.Name,
 		&user.Email,
 		&user.Password,
-		&user.CreatAt,
+		&user.CreatedAt,
 	)
 	return user, err
 }
@@ -65,4 +73,43 @@ func (u *User) DeleteUser() (err error) {
 		log.Fatal(err)
 	}
 	return err
+}
+
+func GetUserByEmail(email string) (user User, err error) {
+	user = User{}
+	cmd := `select id ,uuid, name, email, password, created_at from users where email = ?`
+	err = Db.QueryRow(cmd, email).Scan(
+		&user.ID,
+		&user.UUID,
+		&user.Name,
+		&user.Email,
+		&user.Password,
+		&user.CreatedAt)
+
+	return user, err
+
+}
+
+func (u *User) CreateSession() (session Session, err error) {
+	session = Session{}
+	cmd1 := `insert into sessions(
+		uuid,
+		email,
+		user_id,
+		created_at) values (?, ?, ?, ?)`
+	_, err = Db.Exec(cmd1, createUUID(), u.Email, u.ID, time.Now())
+	if err != nil {
+		log.Println(err)
+	}
+
+	cmd2 := `select id, uuid, email, user_id, created_at
+	from sessions where user_id = ? and email = ? `
+	err = Db.QueryRow(cmd2, u.ID, u.Email).Scan(
+		&session.ID,
+		&session.UUID,
+		&session.Email,
+		&session.UserID,
+		&session.Created_at)
+
+	return session, err
 }
